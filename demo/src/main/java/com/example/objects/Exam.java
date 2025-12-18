@@ -15,5 +15,9 @@ public class Exam {
         this.start = start;
         this.end = end;
     }
+    public boolean matches(String query) {
+        if (course == null) return false;
+        return course.getCourseCode().toLowerCase().contains(query.toLowerCase());
+    }
 }
 

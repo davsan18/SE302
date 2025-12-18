@@ -15,5 +15,11 @@ public class Student {
     public String toString() {
         return studentId;
     }
+
+
+    public boolean matches(String query) {
+        if (studentId == null) return false;
+        return studentId.toLowerCase().contains(query.toLowerCase());
+    }
 }
 
