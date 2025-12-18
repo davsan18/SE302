@@ -17,7 +17,6 @@ import java.io.File;
 public class MainApp extends Application {
 
     private final ExamScheduler scheduler = new ExamScheduler();
-
     @Override
     public void start(Stage stage) {
 
@@ -41,11 +40,11 @@ public class MainApp extends Application {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
-        MenuItem loadStudents = new MenuItem("Load Students");
-        MenuItem loadClassrooms = new MenuItem("Load Classrooms");
-        MenuItem loadCourses = new MenuItem("Load Courses");
+        MenuItem importStudents = new MenuItem("Import Students");
+        MenuItem importClassrooms = new MenuItem("Import Classrooms");
+        MenuItem importCourses = new MenuItem("Import Courses");
 
-        loadStudents.setOnAction(e -> {
+        importStudents.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 try {
@@ -57,7 +56,7 @@ public class MainApp extends Application {
             }
         });
 
-        loadClassrooms.setOnAction(e -> {
+        importClassrooms.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 try {
@@ -69,7 +68,7 @@ public class MainApp extends Application {
             }
         });
 
-        loadCourses.setOnAction(e -> {
+        importCourses.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 try {
@@ -81,11 +80,12 @@ public class MainApp extends Application {
             }
         });
 
-        Menu menu = new Menu("Load");
-        menu.getItems().addAll(loadStudents, loadClassrooms, loadCourses);
+        Menu menu = new Menu("Import");
+        menu.getItems().addAll(importStudents, importClassrooms, importCourses);
         MenuBar menuBar = new MenuBar(menu);
 
         BorderPane root = new BorderPane();
+
         root.setTop(menuBar);
         root.setCenter(tabPane);
 

@@ -16,6 +16,8 @@ public class ExamScheduler {
     public final List<Course> courses = new ArrayList<>();
 
     private final Map<String, Student> studentMap = new HashMap<>();
+    private final Map<String, Classroom> classroomMap = new HashMap<>();
+    private final Map<String, Course> courseMap = new HashMap<>();
 
     public void loadStudents(File csv) throws IOException {
         students.clear();
@@ -33,14 +35,20 @@ public class ExamScheduler {
             while ((line = br.readLine()) != null) {
                 if (line.isBlank()) continue;
 
-                Student s = new Student(line.trim());
-                students.add(s);
-                studentMap.put(s.getStudentId(), s);
+                String id = line.trim();
+
+
+                Student s = studentMap.get(id);
+                if (s == null) {
+                    s = new Student(id);
+                    studentMap.put(id, s);
+                    students.add(s);
+                }
             }
         }
     }
 
-    /* ================= CLASSROOMS ================= */
+    //CLASSROOMS
     public void loadClassrooms(File csv) throws IOException {
         classrooms.clear();
 
@@ -59,17 +67,30 @@ public class ExamScheduler {
                 String[] parts = line.split(";");
                 if (parts.length != 2) continue;
 
-                classrooms.add(new Classroom(
-                        parts[0].trim(),
-                        Integer.parseInt(parts[1].trim())
-                ));
+                String roomId = parts[0].trim();
+                int capacity = Integer.parseInt(parts[1].trim());
+
+                Classroom c = classroomMap.get(roomId);
+
+                if (c == null) {
+                    c = new Classroom(roomId, capacity);
+                    classroomMap.put(roomId, c);
+                    classrooms.add(c);
+                } else {
+                    // Update capacity if changed
+                    if (c.getCapacity() != capacity) {
+                        classroomMap.put(roomId,
+                                new Classroom(roomId, capacity));
+                        classrooms.remove(c);
+                        classrooms.add(classroomMap.get(roomId));
+                    }
+                }
             }
         }
     }
 
-    /* ================= COURSES ================= */
+    //COURSES
     public void loadCourses(File csv) throws IOException {
-        courses.clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
             String line;
@@ -77,17 +98,19 @@ public class ExamScheduler {
             while ((line = br.readLine()) != null) {
                 if (line.isBlank()) continue;
 
-                // This line is a course code
                 String courseCode = line.trim();
-                Course course = new Course(courseCode);
 
-                // Next line must be the student list
+                Course course = courseMap.get(courseCode);
+                if (course == null) {
+                    course = new Course(courseCode);
+                    courseMap.put(courseCode, course);
+                    courses.add(course);
+                }
+
+                // Next line = student list
                 String studentLine = br.readLine();
                 if (studentLine == null) break;
 
-                studentLine = studentLine.trim();
-
-                // Remove [ ]
                 studentLine = studentLine
                         .replace("[", "")
                         .replace("]", "");
@@ -97,12 +120,10 @@ public class ExamScheduler {
                 for (String id : ids) {
                     id = id.replace("'", "").trim();
                     Student s = studentMap.get(id);
-                    if (s != null) {
+                    if (s != null && !course.getStudents().contains(s)) {
                         course.addStudent(s);
                     }
                 }
-
-                courses.add(course);
             }
         }
     }
