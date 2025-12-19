@@ -1,5 +1,13 @@
 package com.example.scheduler;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class SchedulerService {
 
@@ -19,7 +27,7 @@ public final class SchedulerService {
         }
 
         public static ScheduleResult noSolution(String message) {
-            return new ScheduleResult(false, Collections.emptyList(), message);
+            return new ScheduleResult(false, Collections.<ExamAssignment>emptyList(), message);
         }
 
         public boolean isFeasible() {
@@ -57,15 +65,15 @@ public final class SchedulerService {
 
         ConflictGraph graph = buildConflictGraph(courseToStudents);
 
-        List<TimeSlot> allSlots = new ArrayList<>();
+        List<TimeSlot> allSlots = new ArrayList<TimeSlot>();
         for (int d = 0; d < dayCount; d++) {
             for (int s = 0; s < slotsPerDay; s++) {
                 allSlots.add(new TimeSlot(d, s));
             }
         }
 
-        List<String> courses = new ArrayList<>(courseToStudents.keySet());
-        courses.sort(new Comparator<String>() {
+        List<String> courses = new ArrayList<String>(courseToStudents.keySet());
+        Collections.sort(courses, new Comparator<String>() {
             @Override
             public int compare(String a, String b) {
                 int deg = Integer.compare(graph.degreeOf(b), graph.degreeOf(a));
@@ -76,20 +84,26 @@ public final class SchedulerService {
             }
         });
 
-        Map<TimeSlot, List<ExamAssignment>> scheduleBySlot = new HashMap<>();
-        Map<String, List<TimeSlot>> studentToAssignedSlots = new HashMap<>();
-        List<ExamAssignment> result = new ArrayList<>();
+        Map<TimeSlot, List<ExamAssignment>> scheduleBySlot = new HashMap<TimeSlot, List<ExamAssignment>>();
+        Map<String, List<TimeSlot>> studentToAssignedSlots = new HashMap<String, List<TimeSlot>>();
+        List<ExamAssignment> result = new ArrayList<ExamAssignment>();
         ConstraintChecker checker = new ConstraintChecker();
 
-        List<String> rooms = new ArrayList<>(roomCapacities.keySet());
-        rooms.sort(new Comparator<String>() {
+        List<String> rooms = new ArrayList<String>(roomCapacities.keySet());
+        Collections.sort(rooms, new Comparator<String>() {
             @Override
             public int compare(String r1, String r2) {
                 return Integer.compare(roomCapacities.get(r1), roomCapacities.get(r2));
             }
         });
 
+        Set<String> scheduledCourses = new HashSet<String>();
+
         for (String course : courses) {
+            if (scheduledCourses.contains(course)) {
+                continue;
+            }
+
             boolean placed = false;
 
             for (TimeSlot slot : allSlots) {
@@ -104,17 +118,30 @@ public final class SchedulerService {
                     }
 
                     ExamAssignment ea = new ExamAssignment(course, room, slot);
-                    scheduleBySlot.computeIfAbsent(slot, k -> new ArrayList<>()).add(ea);
+
+                    List<ExamAssignment> list = scheduleBySlot.get(slot);
+                    if (list == null) {
+                        list = new ArrayList<ExamAssignment>();
+                        scheduleBySlot.put(slot, list);
+                    }
+                    list.add(ea);
+
                     result.add(ea);
 
                     Set<String> students = courseToStudents.get(course);
                     if (students != null) {
                         for (String sid : students) {
                             if (sid == null) continue;
-                            studentToAssignedSlots.computeIfAbsent(sid, k -> new ArrayList<>()).add(slot);
+                            List<TimeSlot> slots = studentToAssignedSlots.get(sid);
+                            if (slots == null) {
+                                slots = new ArrayList<TimeSlot>();
+                                studentToAssignedSlots.put(sid, slots);
+                            }
+                            slots.add(slot);
                         }
                     }
 
+                    scheduledCourses.add(course);
                     placed = true;
                     break;
                 }
