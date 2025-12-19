@@ -74,19 +74,20 @@
 
     <TabPane fx:id="mainTabs">
         <tabs>
-            <Tab text="Students">
+            <Tab text="Students" closable="false">
                 <ListView fx:id="studentsList"/>
+
             </Tab>
-            <Tab text="Courses">
+            <Tab text="Courses" closable="false">
                 <ListView fx:id="coursesList"/>
             </Tab>
-            <Tab text="Classrooms">
+            <Tab text="Classrooms" closable="false">
                 <ListView fx:id="classroomsList"/>
             </Tab>
-            <Tab text="Schedule (All Exams)">
+            <Tab text="Schedule (All Exams)" closable="false">
                 <TableView fx:id="scheduleTableAll"/>
             </Tab>
-            <Tab text="Schedule (By Student)">
+            <Tab text="Schedule (By Student)" closable="false">
                 <TableView fx:id="scheduleTableStudent"/>
             </Tab>
         </tabs>
