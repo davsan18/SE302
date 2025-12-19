@@ -19,5 +19,9 @@ public class Exam {
         if (course == null) return false;
         return course.getCourseCode().toLowerCase().contains(query.toLowerCase());
     }
+    public Course getCourse() { return course; }
+    public Classroom getClassroom() { return classroom; }
+    public LocalDateTime getStart() { return start; }
+    public LocalDateTime getEnd() { return end; }
 }
 
