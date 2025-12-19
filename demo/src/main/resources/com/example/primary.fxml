@@ -9,68 +9,86 @@
       fx:controller="com.example.MainController">
 
     <!-- MENU BAR -->
-    <MenuBar>
+    <MenuBar VBox.vgrow="NEVER">
         <menus>
             <Menu text="File">
                 <items>
-                    <MenuItem text="New"/>
-                    <MenuItem text="Open"/>
-                    <MenuItem text="Save As"/>
+                    <MenuItem text="New" onAction="#handleNew"/>
+                    <MenuItem text="Open" onAction="#handleOpen"/>
+                    <MenuItem text="Save As" onAction="#handleSaveAs"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Exit"/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
             </Menu>
 
             <Menu text="Import">
                 <items>
-                    <MenuItem text="Students"/>
-                    <MenuItem text="Courses"/>
-                    <MenuItem text="Classrooms"/>
+                    <MenuItem text="Students" onAction="#handleImportStudents"/>
+                    <MenuItem text="Courses" onAction="#handleImportCourses"/>
+                    <MenuItem text="Classrooms" onAction="#handleImportClassrooms"/>
                 </items>
             </Menu>
 
             <Menu text="Edit">
                 <items>
-                    <MenuItem text="Exam"/>
+                    <MenuItem fx:id="miEditExam"
+                              text="Exam"
+                              onAction="#handleEditExam"/>
                 </items>
             </Menu>
 
             <Menu text="View">
                 <items>
-                    <MenuItem text="Students"/>
-                    <MenuItem text="Courses"/>
-                    <MenuItem text="Classrooms"/>
-                    <MenuItem text="Schedule"/>
+                    <MenuItem text="Students" onAction="#handleViewStudents"/>
+                    <MenuItem text="Courses" onAction="#handleViewCourses"/>
+                    <MenuItem text="Classrooms" onAction="#handleViewClassrooms"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem fx:id="miViewSchedule"
+                               text="Schedule"
+                              onAction="#handleViewSchedule"/>
                 </items>
             </Menu>
 
             <Menu text="Help">
                 <items>
-                    <MenuItem text="User Manual"/>
-                    <MenuItem text="About"/>
+                    <MenuItem text="User Manual" onAction="#handleUserManual"/>
+                    <MenuItem text="About" onAction="#handleAbout"/>
                 </items>
             </Menu>
         </menus>
     </MenuBar>
 
-    <!-- TOOLBAR -->
+
     <ToolBar>
-        <Button text="New"/>
-        <Button text="Open"/>
-        <Button text="Save As"/>
+        <Button text="New" onAction="#handleNew"/>
+        <Button text="Open" onAction="#handleOpen"/>
+        <Button text="Save As" onAction="#handleSaveAs"/>
         <Separator orientation="VERTICAL"/>
-        <Button text="Create Schedule"/>
-        <Button text="View Schedule"/>
+        <Button fx:id="btnCreateSchedule"
+                text="Create Schedule"
+                onAction="#handleCreateSchedule"/>
+        <Button fx:id="btnViewSchedule"
+                text="View Schedule"
+                onAction="#handleViewSchedule"/>
     </ToolBar>
 
-    <!-- TABS -->
-    <TabPane>
+    <TabPane fx:id="mainTabs">
         <tabs>
-            <Tab text="Students"/>
-            <Tab text="Courses"/>
-            <Tab text="Classrooms"/>
-            <Tab text="Schedule (All Exams)"/>
-            <Tab text="Schedule (By Student)"/>
+            <Tab text="Students">
+                <ListView fx:id="studentsList"/>
+            </Tab>
+            <Tab text="Courses">
+                <ListView fx:id="coursesList"/>
+            </Tab>
+            <Tab text="Classrooms">
+                <ListView fx:id="classroomsList"/>
+            </Tab>
+            <Tab text="Schedule (All Exams)">
+                <TableView fx:id="scheduleTableAll"/>
+            </Tab>
+            <Tab text="Schedule (By Student)">
+                <TableView fx:id="scheduleTableStudent"/>
+            </Tab>
         </tabs>
     </TabPane>
 
