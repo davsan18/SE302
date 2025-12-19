@@ -1,143 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
-  All rights reserved. Use is subject to license terms.
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-  This file is available and licensed under the following license:
+<VBox prefHeight="520.0" prefWidth="840.0"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.MainController">
 
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
+    <!-- MENU BAR -->
+    <MenuBar VBox.vgrow="NEVER">
+        <menus>
+            <Menu text="File">
+                <items>
+                    <MenuItem text="New" onAction="#handleNew"/>
+                    <MenuItem text="Open" onAction="#handleOpen"/>
+                    <MenuItem text="Save As" onAction="#handleSaveAs"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </items>
+            </Menu>
 
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the distribution.
-  - Neither the name of Oracle Corporation nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
+            <Menu text="Import">
+                <items>
+                    <MenuItem text="Students" onAction="#handleImportStudents"/>
+                    <MenuItem text="Courses" onAction="#handleImportCourses"/>
+                    <MenuItem text="Classrooms" onAction="#handleImportClassrooms"/>
+                </items>
+            </Menu>
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
+            <Menu text="Edit">
+                <items>
+                    <MenuItem fx:id="miEditExam"
+                              text="Exam"
+                              onAction="#handleEditExam"/>
+                </items>
+            </Menu>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CustomMenuItem?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+            <Menu text="View">
+                <items>
+                    <MenuItem text="Students" onAction="#handleViewStudents"/>
+                    <MenuItem text="Courses" onAction="#handleViewCourses"/>
+                    <MenuItem text="Classrooms" onAction="#handleViewClassrooms"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem fx:id="miViewSchedule"
+                               text="Schedule"
+                              onAction="#handleViewSchedule"/>
+                </items>
+            </Menu>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.PrimaryController">
-  <children>
-        <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleNew" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save As" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-               </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Import">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleImportStudents" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleImportCourses" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleImportAttendances" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleImportClassrooms" text="Classrooms" />
-               </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Export">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleExportStudents" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleExportCourses" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleExportAttendances" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleExportClassrooms" text="Classrooms" />
-               </items>
-        </Menu>
-            <Menu mnemonicParsing="false" text="Add">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleAddStudent" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleAddCourse" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleAddAttendance" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleAddClassroom" text="Classrooms" />
-               </items>
+            <Menu text="Help">
+                <items>
+                    <MenuItem text="User Manual" onAction="#handleUserManual"/>
+                    <MenuItem text="About" onAction="#handleAbout"/>
+                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleEditStudent" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleEditCourse" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleEditAttendance" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleEditClassroom" text="Classrooms" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Delete">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteStudent" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteCourse" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteAttendance" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteClassroom" text="Classrooms" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="View">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleViewStudents" text="Students" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleViewCourses" text="Courses" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleViewAttendances" text="Attendances" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleViewClassrooms" text="Classrooms" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleViewSchedule" text="Schedule" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Search">
-               <items>
-                  <CustomMenuItem hideOnClick="false">
-                     <content>
-                        <Button onAction="#handleSearch" text="Search" />
-                     </content>
-                  </CustomMenuItem>
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Create Schedule">
-               <items>
-                  <CustomMenuItem hideOnClick="false">
-                     <content>
-                        <Button onAction="#handleCreateSchedule" text="Create Schedule" />
-                     </content>
-                  </CustomMenuItem>
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="HELP">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleUserManual" text="User Manual" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
-               </items>
-            </Menu>
-      </menus>
+        </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <TableView layoutX="20.0" layoutY="10.0" prefHeight="350.0" prefWidth="600.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </children></AnchorPane>
-  </children>
+
+
+    <ToolBar>
+        <Button text="New" onAction="#handleNew"/>
+        <Button text="Open" onAction="#handleOpen"/>
+        <Button text="Save As" onAction="#handleSaveAs"/>
+        <Separator orientation="VERTICAL"/>
+        <Button fx:id="btnCreateSchedule"
+                text="Create Schedule"
+                onAction="#handleCreateSchedule"/>
+        <Button fx:id="btnViewSchedule"
+                text="View Schedule"
+                onAction="#handleViewSchedule"/>
+    </ToolBar>
+
+    <TabPane fx:id="mainTabs">
+        <tabs>
+            <Tab text="Students" closable="false">
+                <ListView fx:id="studentsList"/>
+
+            </Tab>
+            <Tab text="Courses" closable="false">
+                <ListView fx:id="coursesList"/>
+            </Tab>
+            <Tab text="Classrooms" closable="false">
+                <ListView fx:id="classroomsList"/>
+            </Tab>
+            <Tab text="Schedule (All Exams)" closable="false">
+                <TableView fx:id="scheduleTableAll"/>
+            </Tab>
+            <Tab text="Schedule (By Student)" closable="false">
+                <TableView fx:id="scheduleTableStudent"/>
+            </Tab>
+        </tabs>
+    </TabPane>
+
 </VBox>
