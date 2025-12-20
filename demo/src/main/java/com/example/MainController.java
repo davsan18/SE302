@@ -36,6 +36,7 @@ public class MainController {
 
     @FXML private TableView<Exam> scheduleTableAll;
     @FXML private TableView<Exam> scheduleTableStudent;
+    @FXML private ComboBox<Student> cbStudents;
 
     @FXML private MenuItem miEditExam;
     @FXML private MenuItem miViewSchedule;
@@ -46,13 +47,18 @@ public class MainController {
     public void initialize() {
 
         BooleanBinding scheduleMissing = scheduleCreated.not();
-
+        if (cbStudents != null) cbStudents.disableProperty().bind(scheduleMissing);
         if (miEditExam != null) miEditExam.disableProperty().bind(scheduleMissing);
         if (miViewSchedule != null) miViewSchedule.disableProperty().bind(scheduleMissing);
         if (btnViewSchedule != null) btnViewSchedule.disableProperty().bind(scheduleMissing);
         if (btnCreateSchedule != null) btnCreateSchedule.setDisable(false);
 
         setupScheduleTable();
+
+        if (cbStudents != null) {
+            cbStudents.setOnAction(e -> applyStudentFilter());
+        }
+
 
     }
 
@@ -63,6 +69,12 @@ public class MainController {
         data.classrooms.clear();
         data.courses.clear();
         refreshLists();
+        if (cbStudents != null) {
+            cbStudents.getSelectionModel().clearSelection();
+            cbStudents.getItems().clear();
+        }
+        if (scheduleTableStudent != null) scheduleTableStudent.getItems().clear();
+
         scheduleCreated.set(false);
         info("New", "New session started (data cleared).");
     }
@@ -135,7 +147,6 @@ public class MainController {
     public void handleEditExam() {
         info("Edit Exam", "Edit Exam UI (placeholder).");
     }
-
     @FXML
     public void handleCreateSchedule() {
 
@@ -143,7 +154,6 @@ public class MainController {
             info("Create Schedule", "Import Courses and Classrooms before creating schedule.");
             return;
         }
-
         try {
             scheduledExams = new ArrayList<>();
             for (Course c : data.courses) {
@@ -159,11 +169,19 @@ public class MainController {
                     timeSlots.add(base.plusDays(day).plusHours(slot * 3));
                 }
             }
-            schedulerService.assignExamsAutomatically(scheduledExams, data.classrooms, timeSlots);
+
+            schedulerService.assignExamsAutomatically(
+                    scheduledExams, data.classrooms, timeSlots
+            );
+
             boolean anyScheduled = false;
             for (Exam e : scheduledExams) {
-                if (e.getStart() != null) { anyScheduled = true; break; }
+                if (e.getStart() != null) {
+                    anyScheduled = true;
+                    break;
+                }
             }
+
             if (!anyScheduled) {
                 info("Create Schedule", "No exams could be scheduled.");
                 scheduleCreated.set(false);
@@ -175,18 +193,21 @@ public class MainController {
             if (scheduleTableAll != null) {
                 scheduleTableAll.getItems().setAll(scheduledExams);
             }
-            if (scheduleTableStudent != null) {
-                scheduleTableStudent.getItems().setAll(scheduledExams);
-            }
+
+            applyStudentFilter();
+            mainTabs.getSelectionModel().select(3);
 
             info("Create Schedule", "Schedule created successfully.");
-            mainTabs.getSelectionModel().select(3);
 
         } catch (Exception ex) {
             scheduleCreated.set(false);
             showError("Schedule creation failed", ex);
         }
     }
+
+
+
+
 
 
     @FXML
@@ -203,6 +224,8 @@ public class MainController {
         if (studentsList != null) studentsList.getItems().setAll(data.students);
         if (coursesList != null) coursesList.getItems().setAll(data.courses);
         if (classroomsList != null) classroomsList.getItems().setAll(data.classrooms);
+        if (cbStudents != null) cbStudents.getItems().setAll(data.students);
+
     }
 
     private File pickCsv(String title) {
@@ -245,10 +268,10 @@ public class MainController {
                     new SimpleStringProperty(
                             e.getValue().getClassroom() == null ? "-" : e.getValue().getClassroom().getClassroomId()
                     ));
-
             TableColumn<Exam, String> cStart = new TableColumn<>("Start");
             cStart.setCellValueFactory(e ->
                     new SimpleStringProperty(String.valueOf(e.getValue().getStart())));
+            cStart.setPrefWidth(180);
 
             scheduleTableAll.getColumns().addAll(cCourse, cRoom, cStart);
         }
@@ -273,6 +296,39 @@ public class MainController {
             scheduleTableStudent.getColumns().addAll(cCourse, cRoom, cStart);
         }
     }
+
+    private void applyStudentFilter() {
+        if (scheduleTableStudent == null) return;
+
+        if (!scheduleCreated.get()) {
+            scheduleTableStudent.getItems().clear();
+            return;
+        }
+        if (cbStudents == null || cbStudents.getValue() == null) {
+            scheduleTableStudent.getItems().clear();
+            return;
+        }
+
+        Student selected = cbStudents.getValue();
+        List<String> selectedCourseCodes = new ArrayList<>();
+        for (Course c : data.courses) {
+            if (c.getStudents().contains(selected)) {
+                selectedCourseCodes.add(c.getCourseCode());
+            }
+        }
+
+        List<Exam> filtered = new ArrayList<>();
+        for (Exam e : scheduledExams) {
+            if (e.getCourse() == null) continue;
+            String code = e.getCourse().getCourseCode();
+            if (selectedCourseCodes.contains(code)) {
+                filtered.add(e);
+            }
+        }
+
+        scheduleTableStudent.getItems().setAll(filtered);
+    }
+
 
 
 

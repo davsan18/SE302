@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox prefHeight="520.0" prefWidth="840.0"
       xmlns="http://javafx.com/javafx/25"
@@ -31,9 +32,7 @@
 
             <Menu text="Edit">
                 <items>
-                    <MenuItem fx:id="miEditExam"
-                              text="Exam"
-                              onAction="#handleEditExam"/>
+                    <MenuItem fx:id="miEditExam" text="Exam" onAction="#handleEditExam"/>
                 </items>
             </Menu>
 
@@ -43,9 +42,7 @@
                     <MenuItem text="Courses" onAction="#handleViewCourses"/>
                     <MenuItem text="Classrooms" onAction="#handleViewClassrooms"/>
                     <SeparatorMenuItem/>
-                    <MenuItem fx:id="miViewSchedule"
-                               text="Schedule"
-                              onAction="#handleViewSchedule"/>
+                    <MenuItem fx:id="miViewSchedule" text="Schedule" onAction="#handleViewSchedule"/>
                 </items>
             </Menu>
 
@@ -64,31 +61,48 @@
         <Button text="Open" onAction="#handleOpen"/>
         <Button text="Save As" onAction="#handleSaveAs"/>
         <Separator orientation="VERTICAL"/>
-        <Button fx:id="btnCreateSchedule"
-                text="Create Schedule"
-                onAction="#handleCreateSchedule"/>
-        <Button fx:id="btnViewSchedule"
-                text="View Schedule"
-                onAction="#handleViewSchedule"/>
+        <Button fx:id="btnCreateSchedule" text="Create Schedule" onAction="#handleCreateSchedule"/>
+        <Button fx:id="btnViewSchedule" text="View Schedule" onAction="#handleViewSchedule"/>
     </ToolBar>
 
-    <TabPane fx:id="mainTabs">
+
+    <TabPane fx:id="mainTabs" VBox.vgrow="ALWAYS">
         <tabs>
             <Tab text="Students" closable="false">
-                <ListView fx:id="studentsList"/>
+                <content>
+                    <ListView fx:id="studentsList"/>
+                </content>
+            </Tab>
 
-            </Tab>
             <Tab text="Courses" closable="false">
-                <ListView fx:id="coursesList"/>
+                <content>
+                    <ListView fx:id="coursesList"/>
+                </content>
             </Tab>
+
             <Tab text="Classrooms" closable="false">
-                <ListView fx:id="classroomsList"/>
+                <content>
+                    <ListView fx:id="classroomsList"/>
+                </content>
             </Tab>
+
             <Tab text="Schedule (All Exams)" closable="false">
-                <TableView fx:id="scheduleTableAll"/>
+                <content>
+                    <TableView fx:id="scheduleTableAll"/>
+                </content>
             </Tab>
+
             <Tab text="Schedule (By Student)" closable="false">
-                <TableView fx:id="scheduleTableStudent"/>
+                <content>
+                    <VBox spacing="8">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <ComboBox fx:id="cbStudents" promptText="Select student"/>
+                        <TableView fx:id="scheduleTableStudent"/>
+                    </VBox>
+                </content>
             </Tab>
         </tabs>
     </TabPane>
