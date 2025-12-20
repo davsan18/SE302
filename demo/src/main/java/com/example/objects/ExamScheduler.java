@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExamScheduler {
 
@@ -51,7 +48,7 @@ public class ExamScheduler {
     //CLASSROOMS
     public void loadClassrooms(File csv) throws IOException {
         classrooms.clear();
-
+        classroomMap.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
             String line;
 
@@ -126,6 +123,45 @@ public class ExamScheduler {
                 }
             }
         }
+    }
+    public Map<String, Integer> convertClassroomsToCapacityMap() {
+        Map<String, Integer> roomCapacities = new HashMap<>();
+
+        for (Classroom classroom : classrooms) {
+            roomCapacities.put(
+                    classroom.getClassroomId(),
+                    classroom.getCapacity()
+            );
+        }
+
+        return roomCapacities;
+    }
+    public Map<String, Set<String>> convertCoursesToStudentMap() {
+        Map<String, Set<String>> courseToStudents = new HashMap<>();
+
+        for (Course course : courses) {
+            Set<String> studentIds = new HashSet<>();
+
+            for (Student student : course.getStudents()) {
+                studentIds.add(student.getStudentId());
+            }
+
+            courseToStudents.put(
+                    course.getCourseCode(),
+                    studentIds
+            );
+        }
+
+        return courseToStudents;
+    }
+    public Course getCourseFromId(String key){
+        return courseMap.get(key);
+    }
+    public Student getStudentFromId(String key){
+        return studentMap.get(key);
+    }
+    public Classroom getClassroomFromId(String key){
+        return classroomMap.get(key);
     }
 }
 
