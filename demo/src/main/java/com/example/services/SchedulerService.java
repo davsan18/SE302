@@ -29,48 +29,64 @@ public class SchedulerService {
         ConflictGraphBuilder builder = new ConflictGraphBuilder();
         ConflictGraph graph = builder.build(courseToStudentsMap);
 
+        ConstraintChecker checker = new ConstraintChecker();
+
         Map<TimeSlot, List<ExamAssignment>> scheduleBySlot = new HashMap<>();
         Map<String, List<TimeSlot>> studentToAssignedSlots = new HashMap<>();
-
-        ConstraintChecker checker = new ConstraintChecker();
 
         exams.sort((e1, e2) -> {
             String c1 = e1.getCourse().getCourseCode();
             String c2 = e2.getCourse().getCourseCode();
+
             int degree1 = graph.degreeOf(c1);
             int degree2 = graph.degreeOf(c2);
+
             int degreeCompare = Integer.compare(degree2, degree1);
             if (degreeCompare != 0) return degreeCompare;
+
             return Integer.compare(e2.getCourse().getStudents().size(), e1.getCourse().getStudents().size());
         });
 
         rooms.sort(Comparator.comparingInt(Classroom::getCapacity));
 
         List<java.time.LocalDate> uniqueDays = timeSlots.stream()
-                .map(LocalDateTime::toLocalDate).distinct().sorted().collect(Collectors.toList());
+                .map(LocalDateTime::toLocalDate)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
         List<java.time.LocalTime> uniqueTimes = timeSlots.stream()
-                .map(LocalDateTime::toLocalTime).distinct().sorted().collect(Collectors.toList());
+                .map(LocalDateTime::toLocalTime)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
 
         for (int i = 0; i < exams.size(); i++) {
             Exam currentExam = exams.get(i);
+
             if (currentExam.getStart() != null) continue;
 
             boolean isAssigned = false;
+            int studentCount = currentExam.getCourse().getStudents().size();
 
-            List<LocalDateTime> shuffledSlots = new ArrayList<>(timeSlots);
-            Collections.shuffle(shuffledSlots);
-
-            for (LocalDateTime slot : shuffledSlots) {
+            for (Classroom room : rooms) {
                 if (isAssigned) break;
 
-                int dayIndex = uniqueDays.indexOf(slot.toLocalDate());
-                int slotIndex = uniqueTimes.indexOf(slot.toLocalTime());
+                if (room.getCapacity() < studentCount) {
+                    continue;
+                }
 
-                if (dayIndex == -1 || slotIndex == -1) continue;
+                List<LocalDateTime> shuffledSlots = new ArrayList<>(timeSlots);
+                Collections.shuffle(shuffledSlots);
 
-                TimeSlot targetTimeSlot = new TimeSlot(dayIndex, slotIndex);
+                for (LocalDateTime slot : shuffledSlots) {
 
-                for (Classroom room : rooms) {
+                    int dayIndex = uniqueDays.indexOf(slot.toLocalDate());
+                    int slotIndex = uniqueTimes.indexOf(slot.toLocalTime());
+
+                    if (dayIndex == -1 || slotIndex == -1) continue;
+
+                    TimeSlot targetTimeSlot = new TimeSlot(dayIndex, slotIndex);
 
                     boolean isSafe = checker.canPlaceCourse(
                             currentExam.getCourse().getCourseCode(),
@@ -102,14 +118,15 @@ public class SchedulerService {
                         }
 
                         isAssigned = true;
-                        System.out.println("Assigned using Checker: " + currentExam.getCourse().getCourseCode());
+                        System.out.println("Assigned: " + currentExam.getCourse().getCourseCode() +
+                                " -> " + room.getClassroomId());
                         break;
                     }
                 }
             }
 
             if (!isAssigned) {
-                System.err.println("Warning: No suitable slot found for " + currentExam.getCourse().getCourseCode());
+                System.err.println("WARNING: No Slot Found for " + currentExam.getCourse().getCourseCode());
             }
         }
     }
