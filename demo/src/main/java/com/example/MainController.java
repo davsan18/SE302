@@ -1,7 +1,7 @@
 package com.example;
 
 import com.example.objects.Exam;
-import com.example.services.SchedulerService;
+import com.example.scheduler.SchedulerService;
 import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,9 +14,16 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
@@ -147,7 +154,7 @@ public class MainController {
     public void handleEditExam() {
         info("Edit Exam", "Edit Exam UI (placeholder).");
     }
-    @FXML
+    /*@FXML
     public void handleCreateSchedule() {
 
         if (data.courses.isEmpty() || data.classrooms.isEmpty() || data.students.isEmpty()) {
@@ -203,11 +210,108 @@ public class MainController {
             scheduleCreated.set(false);
             showError("Schedule creation failed", ex);
         }
+    }*/
+
+    @FXML
+   private void showScheduleInputWindow() {
+        if (data.courses.isEmpty() || data.classrooms.isEmpty() || data.students.isEmpty()) {
+            info("Create Schedule", "Import Students, Courses and Classrooms before creating schedule.");
+            return;
+        }
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Generate Schedule");
+
+        Label dayLabel = new Label("Day count:");
+        TextField dayField = new TextField();
+
+        Label slotLabel = new Label("Slots per day:");
+        TextField slotField = new TextField();
+
+        Button generateBtn = new Button("Generate");
+        Button cancelBtn = new Button("Cancel");
+
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        generateBtn.setOnAction(e -> {
+            try {
+                int dayCount = Integer.parseInt(dayField.getText());
+                int slotsPerDay = Integer.parseInt(slotField.getText());
+
+                if (dayCount <= 0 || slotsPerDay <= 0) {
+                    errorLabel.setText("Values must be positive");
+                    return;
+                }
+
+                SchedulerService.ScheduleResult result = schedulerService.generateSchedule(
+                        dayCount,
+                        slotsPerDay,
+                        data.convertClassroomsToCapacityMap(),
+                        data.convertCoursesToStudentMap()
+                );
+
+                scheduledExams = convertScheduleResultToExams(result);
+
+                scheduleTableAll.getItems().setAll(scheduledExams);
+
+                scheduleCreated.set(true);
+                applyStudentFilter();
+
+                mainTabs.getSelectionModel().select(3); // go to Schedule tab
+                dialog.close();
+
+            } catch (NumberFormatException ex) {
+                errorLabel.setText("Please enter valid integers");
+            }
+        });
+
+        cancelBtn.setOnAction(e -> dialog.close());
+
+        HBox buttons = new HBox(10, generateBtn, cancelBtn);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(10,
+                dayLabel, dayField,
+                slotLabel, slotField,
+                errorLabel,
+                buttons
+        );
+        layout.setPadding(new Insets(15));
+
+        dialog.setScene(new Scene(layout));
+        dialog.showAndWait();
     }
 
+    private List<Exam> convertScheduleResultToExams(
+            SchedulerService.ScheduleResult result
+    ) {
+        List<Exam> exams = new ArrayList<>();
+
+        if (!result.isFeasible()) {
+            throw new IllegalStateException(result.getMessage());
+        }
+
+        for (var assignment : result.getAssignments()) {
+
+            Course course = data.getCourseFromId(assignment.getCourseCode());
+            Classroom room = data.getClassroomFromId(assignment.getRoomName());
 
 
+            int day = assignment.getSlot().getDayIndex();
+            int slot = assignment.getSlot().getSlotIndex();
 
+            LocalDateTime start = LocalDateTime.now()
+                    .withHour(9).withMinute(0).withSecond(0).withNano(0)
+                    .plusDays(day)
+                    .plusHours(slot * 3);
+
+            Exam exam = new Exam(course, room, start, null);
+            exams.add(exam);
+        }
+
+        return exams;
+    }
 
 
     @FXML
@@ -328,15 +432,4 @@ public class MainController {
 
         scheduleTableStudent.getItems().setAll(filtered);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
