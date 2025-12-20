@@ -1,9 +1,8 @@
 package com.example.objects;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Exam implements Serializable {
+public class Exam {
     private final Course course;
     private final Classroom classroom;
     private final LocalDateTime start;

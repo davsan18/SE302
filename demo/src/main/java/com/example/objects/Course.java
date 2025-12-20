@@ -1,10 +1,9 @@
 package com.example.objects;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course implements Serializable {
+public class Course {
     private final String courseCode;
     private final List<Student> students = new ArrayList<>();
 

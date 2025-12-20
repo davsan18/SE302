@@ -1,8 +1,6 @@
 package com.example.objects;
 
-import java.io.Serializable;
-
-public class Classroom implements Serializable {
+public class Classroom {
     private final String classroomId;
     private final int capacity;
 
