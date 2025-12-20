@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class Exam {
     private final Course course;
-    private final Classroom classroom;
-    private final LocalDateTime start;
-    private final LocalDateTime end;
+    private Classroom classroom;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public Exam(Course course, Classroom classroom,
                 LocalDateTime start, LocalDateTime end) {
@@ -23,5 +23,11 @@ public class Exam {
     public Classroom getClassroom() { return classroom; }
     public LocalDateTime getStart() { return start; }
     public LocalDateTime getEnd() { return end; }
+
+    public void setClassroom(Classroom classroom) {this.classroom = classroom;}
+
+    public void setStart(LocalDateTime start) {this.start = start;}
+
+    public void setEnd(LocalDateTime end) {this.end = end;}
 }
 
