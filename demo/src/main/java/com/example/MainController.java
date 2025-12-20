@@ -27,10 +27,14 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 public class MainController {
     private final ExamScheduler data = new ExamScheduler();
     private final BooleanProperty scheduleCreated = new SimpleBooleanProperty(false);
+    private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm", Locale.ENGLISH);
     private final SchedulerService schedulerService = new SchedulerService();
     private List<Exam> scheduledExams = new ArrayList<>();
 
@@ -374,11 +378,16 @@ public class MainController {
                             e.getValue().getClassroom() == null ? "-" : e.getValue().getClassroom().getClassroomId()
                     ));
             TableColumn<Exam, String> cStart = new TableColumn<>("Start");
-            cStart.setCellValueFactory(e ->
-                    new SimpleStringProperty(String.valueOf(e.getValue().getStart())));
+            cStart.setCellValueFactory(e -> {
+                LocalDateTime dt = e.getValue().getStart();
+                return new SimpleStringProperty(dt == null ? "-" : dt.format(DT_FORMAT));
+            });
+
             cStart.setPrefWidth(180);
 
             scheduleTableAll.getColumns().addAll(cCourse, cRoom, cStart);
+            scheduleTableAll.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         }
 
         if (scheduleTableStudent != null && scheduleTableStudent.getColumns().isEmpty()) {
@@ -395,10 +404,14 @@ public class MainController {
                     ));
 
             TableColumn<Exam, String> cStart = new TableColumn<>("Start");
-            cStart.setCellValueFactory(e ->
-                    new SimpleStringProperty(String.valueOf(e.getValue().getStart())));
+            cStart.setCellValueFactory(e -> {
+                LocalDateTime dt = e.getValue().getStart();
+                return new SimpleStringProperty(dt == null ? "-" : dt.format(DT_FORMAT));
+            });
 
             scheduleTableStudent.getColumns().addAll(cCourse, cRoom, cStart);
+            scheduleTableStudent.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         }
     }
 
