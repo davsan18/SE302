@@ -250,7 +250,10 @@ public class MainController {
                         data.convertClassroomsToCapacityMap(),
                         data.convertCoursesToStudentMap()
                 );
-
+                if (!result.isFeasible()) {
+                    showError("No feasible schedule was created.", new IllegalStateException());
+                    return;
+                }
                 scheduledExams = convertScheduleResultToExams(result);
 
                 scheduleTableAll.getItems().setAll(scheduledExams);
@@ -288,9 +291,7 @@ public class MainController {
     ) {
         List<Exam> exams = new ArrayList<>();
 
-        if (!result.isFeasible()) {
-            throw new IllegalStateException(result.getMessage());
-        }
+
 
         for (var assignment : result.getAssignments()) {
 
