@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM_[Changes]" date="1766248892415" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/20/2025 7:41 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="demo/target/classes/com/example/services/SchedulerService.class" />
+    <option name="AFTER_PATH" value="demo/target/classes/com/example/services/SchedulerService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM_[Changes]/SchedulerService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="demo/target/classes/com/example/App.class" />
+    <option name="AFTER_PATH" value="demo/target/classes/com/example/App.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM_[Changes]/App.class" />
+  </binary>
+</changelist>
