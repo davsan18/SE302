@@ -88,12 +88,16 @@ public class ExamScheduler {
 
     //COURSES
     public void loadCourses(File csv) throws IOException {
+        courses.clear();
+        courseMap.clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
             String line;
 
             while ((line = br.readLine()) != null) {
                 if (line.isBlank()) continue;
+
+                if (line.toUpperCase().contains("ALL OF THE COURSES IN THE SYSTEM")) continue;
 
                 String courseCode = line.trim();
 
