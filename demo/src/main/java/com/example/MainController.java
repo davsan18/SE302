@@ -150,8 +150,8 @@ public class MainController {
     @FXML
     public void handleCreateSchedule() {
 
-        if (data.courses.isEmpty() || data.classrooms.isEmpty()) {
-            info("Create Schedule", "Import Courses and Classrooms before creating schedule.");
+        if (data.courses.isEmpty() || data.classrooms.isEmpty() || data.students.isEmpty()) {
+            info("Create Schedule", "Import Students, Courses and Classrooms before creating schedule.");
             return;
         }
         try {
