@@ -1,22 +1,31 @@
 package com.example;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.example.objects.Classroom;
 import com.example.objects.Course;
 import com.example.objects.ExamScheduler;
 import com.example.objects.Student;
+import com.example.services.ExamSchedularSerializer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class MainApp extends Application {
 
-    private final ExamScheduler scheduler = new ExamScheduler();
+    private ExamScheduler scheduler = new ExamScheduler();
     @Override
     public void start(Stage stage) {
 
@@ -80,9 +89,35 @@ public class MainApp extends Application {
             }
         });
 
-        Menu menu = new Menu("Import");
-        menu.getItems().addAll(importStudents, importClassrooms, importCourses);
-        MenuBar menuBar = new MenuBar(menu);
+        Menu Import = new Menu("Import");
+        Import.getItems().addAll(importStudents, importClassrooms, importCourses);
+        FileChooser saveLoadChooser = new FileChooser();
+        saveLoadChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Exam Scheduler Files", "*.examsched")
+        );
+        MenuItem save = new MenuItem("Save");
+        save.setOnAction(e -> {
+            File file = saveLoadChooser.showSaveDialog(stage);
+            try {
+                ExamSchedularSerializer.save(file,scheduler);
+            } catch (IOException ex) {
+                showError(ex);
+            }
+        });
+        MenuItem load = new MenuItem("Load");
+        load.setOnAction(e -> {
+            File file = saveLoadChooser.showOpenDialog(stage);
+            try {
+                scheduler = ExamSchedularSerializer.load(file);
+            } catch (IOException ex) {
+                showError(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        Menu saveLoad = new Menu("Save/load");
+        saveLoad.getItems().addAll(save,load);
+        MenuBar menuBar = new MenuBar(Import,saveLoad);
 
         BorderPane root = new BorderPane();
 
