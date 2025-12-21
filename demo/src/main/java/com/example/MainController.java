@@ -1,9 +1,11 @@
 package com.example;
 
-import java.io.File;
-import java.io.IOException;
+import com.example.objects.Exam;
+import com.example.scheduler.SchedulerService;
+import com.example.services.ScheduleEditController;
+import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +50,7 @@ public class MainController {
     private final BooleanProperty scheduleCreated = new SimpleBooleanProperty(false);
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm", Locale.ENGLISH);
     private final SchedulerService schedulerService = new SchedulerService();
-    private List<Exam> scheduledExams = new ArrayList<>();
+    ScheduleEditController scheduleEditController;
 
 
 
@@ -191,7 +193,61 @@ public class MainController {
 
     @FXML
     public void handleEditExam() {
-        info("Edit Exam", "Edit Exam UI (placeholder).");
+        if(scheduleEditController == null){
+            info("No exams loaded","Please import or create a schedule first.");
+            return;
+        }
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Edit Exam");
+
+        //Exam selection
+        ComboBox<Exam> examBox = new ComboBox<>();
+        examBox.getItems().addAll(data.exams);
+        examBox.setPromptText("Select Exam");
+
+        //Classroom selection
+        ComboBox<Classroom> roomBox = new ComboBox<>();
+        roomBox.getItems().addAll(data.classrooms);
+        roomBox.setPromptText("Select Classroom");
+
+        //Date & Time
+        DatePicker datePicker = new DatePicker();
+
+        TextField timeField = new TextField();
+        timeField.setPromptText("HH:mm");
+
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        Button saveBtn = new Button("Save");
+        Button cancelBtn = new Button("Cancel");
+
+        //Save logic
+        saveBtn.setOnAction(e -> {
+            try {
+                //TO-DO
+                dialog.close();
+
+            } catch (Exception ex) {
+            }
+        });
+
+        cancelBtn.setOnAction(e -> dialog.close());
+
+        VBox layout = new VBox(10,
+                new Label("Exam:"), examBox,
+                new Label("New Classroom:"), roomBox,
+                new Label("New Date:"), datePicker,
+                new Label("New Start Time:"), timeField,
+                errorLabel,
+                new HBox(10, saveBtn, cancelBtn)
+        );
+
+        layout.setPadding(new Insets(15));
+
+        dialog.setScene(new Scene(layout));
+        dialog.showAndWait();
     }
     /*@FXML
     public void handleCreateSchedule() {
@@ -293,9 +349,9 @@ public class MainController {
                     showError(new IllegalStateException());
                     return;
                 }
-                scheduledExams = convertScheduleResultToExams(result);
+                data.exams = convertScheduleResultToExams(result);
 
-                scheduleTableAll.getItems().setAll(scheduledExams);
+                scheduleTableAll.getItems().setAll(data.exams);
 
                 scheduleCreated.set(true);
                 applyStudentFilter();
@@ -349,7 +405,7 @@ public class MainController {
             Exam exam = new Exam(course, room, start, null);
             exams.add(exam);
         }
-
+        scheduleEditController = new ScheduleEditController(exams);
         return exams;
     }
 
@@ -479,7 +535,7 @@ public class MainController {
         }
 
         List<Exam> filtered = new ArrayList<>();
-        for (Exam e : scheduledExams) {
+        for (Exam e : data.exams) {
             if (e.getCourse() == null) continue;
             String code = e.getCourse().getCourseCode();
             if (selectedCourseCodes.contains(code)) {
