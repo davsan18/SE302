@@ -135,7 +135,4 @@ public class MainApp extends Application {
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
-    public static void main(String[] args) {
-        launch();
-    }
 }
