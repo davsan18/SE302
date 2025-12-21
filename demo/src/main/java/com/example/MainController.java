@@ -24,6 +24,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -375,7 +376,7 @@ public class MainController {
                         data.convertCoursesToStudentMap()
                 );
                 if (!result.isFeasible()) {
-                    showError(new IllegalStateException());
+                    showError(new IllegalStateException("No feasible solution was found."));
                     return;
                 }
                 data.exams = convertScheduleResultToExams(result);
@@ -443,11 +444,6 @@ public class MainController {
     }
 
 
-
-    @FXML
-    public void handleUserManual() {
-        info("Help", "User Manual (placeholder).");
-    }
 
     @FXML
     public void handleAbout() {
@@ -617,5 +613,143 @@ public class MainController {
         }
 
         scheduleTableStudent.getItems().setAll(filtered);
+    }
+    @FXML
+    public void handleUserManual() {
+
+        Stage manualStage = new Stage();
+        manualStage.setTitle("Program Manual");
+        manualStage.initModality(Modality.APPLICATION_MODAL);
+
+        TextArea manualText = new TextArea();
+        manualText.setEditable(false);
+        manualText.setWrapText(true);
+
+        manualText.setText(
+                "EXAM SCHEDULING PROGRAM – USER MANUAL\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "1. IMPORTING DATA (RECOMMENDED ORDER)\n" +
+                        "--------------------------------------------------\n" +
+                        "The user must import the following CSV files using the Import button\n" +
+                        "on the menu bar, in the order listed below:\n\n" +
+                        "1) Students.csv\n" +
+                        "2) Courses.csv\n" +
+                        "3) Classrooms.csv\n" +
+                        "4) AttendanceList.csv\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "2. EXPECTED FILE STRUCTURES\n" +
+                        "--------------------------------------------------\n\n" +
+
+                        "2.1 Students.csv\n" +
+                        "This file contains all student IDs in the system.\n\n" +
+                        "Expected format:\n" +
+                        "- First line: Header / description\n" +
+                        "- Following lines: One student ID per line\n\n" +
+                        "Example:\n" +
+                        "ALL OF THE STUDENTS IN THE SYSTEM\n" +
+                        "Std_ID_001\n" +
+                        "Std_ID_002\n" +
+                        "Std_ID_003\n\n" +
+
+                        "--------------------------------------------------\n" +
+
+                        "2.2 Courses.csv\n" +
+                        "This file contains all course codes in the system.\n\n" +
+                        "Expected format:\n" +
+                        "- First line: Header / description\n" +
+                        "- Following lines: One course code per line\n\n" +
+                        "Example:\n" +
+                        "ALL OF THE COURSES IN THE SYSTEM\n" +
+                        "CSE101\n" +
+                        "MATH202\n" +
+                        "ENG103\n\n" +
+
+                        "--------------------------------------------------\n" +
+
+                        "2.3 Classrooms.csv\n" +
+                        "This file defines classrooms and their capacities.\n\n" +
+                        "Expected format:\n" +
+                        "- First line: Header / description\n" +
+                        "- Following lines: ClassroomID;Capacity\n\n" +
+                        "Example:\n" +
+                        "ALL OF THE CLASSROOMS; AND THEIR CAPACITIES IN THE SYSTEM\n" +
+                        "Classroom_A;40\n" +
+                        "Classroom_B;60\n\n" +
+
+                        "--------------------------------------------------\n" +
+
+                        "2.4 AttendanceList.csv\n" +
+                        "This file defines which students attend which courses.\n\n" +
+                        "Expected format:\n" +
+                        "- A course code on one line\n" +
+                        "- Followed by a list of student IDs attending that course\n" +
+                        "- Repeated for each course\n\n" +
+                        "Example:\n" +
+                        "CSE101\n" +
+                        "['Std_ID_001', 'Std_ID_002', 'Std_ID_005']\n\n" +
+                        "MATH202\n" +
+                        "['Std_ID_002', 'Std_ID_003']\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "3. CREATING THE SCHEDULE\n" +
+                        "--------------------------------------------------\n" +
+                        "After all files are successfully imported, press the\n" +
+                        "'Create Schedule' button. Input the time slots and number of days.\n" +
+                        "The system will generate an\n" +
+                        "exam schedule while considering classroom capacities\n" +
+                        "and student conflicts.\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "4. VIEWING THE SCHEDULE\n" +
+                        "--------------------------------------------------\n" +
+                        "Schedule (All Exams): Displays all scheduled exams.\n\n" +
+                        "Schedule (By Student):\n" +
+                        "- Select a Student ID\n" +
+                        "- View all exams scheduled for that student\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "5. EDITING EXAMS\n" +
+                        "--------------------------------------------------\n" +
+                        "Using the Edit option in the menu bar, the user can:\n" +
+                        "- Change the exam date\n" +
+                        "- Change the exam start time\n" +
+                        "- Change the classroom/location\n\n" +
+                        "If conflicts occur, the system will notify the user\n" +
+                        "and ask whether to continue.\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "6. EXPORTING THE SCHEDULE\n" +
+                        "--------------------------------------------------\n" +
+                        "Use 'Export Schedule' to export the full schedule\n" +
+                        "as a CSV file.\n\n" +
+
+                        "--------------------------------------------------\n" +
+                        "7. SAVING AND RESTORING PROGRAM STATE\n" +
+                        "--------------------------------------------------\n" +
+                        "Save As:\n" +
+                        "- Saves the current program state as a .exams file\n\n" +
+                        "Open:\n" +
+                        "- Loads a previously saved .exams file\n" +
+                        "- Restores all data and schedules\n"
+        );
+
+        ScrollPane scrollPane = new ScrollPane(manualText);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        Scene scene = new Scene(scrollPane, 750, 600);
+        manualStage.setScene(scene);
+        manualStage.show();
+    }
+    private boolean confirm(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }
