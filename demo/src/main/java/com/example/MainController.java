@@ -1,11 +1,9 @@
 package com.example;
 
-import com.example.objects.Exam;
-import com.example.scheduler.SchedulerService;
-import com.example.services.ScheduleEditController;
-import javafx.beans.property.SimpleStringProperty;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +15,7 @@ import com.example.objects.ExamScheduler;
 import com.example.objects.Student;
 import com.example.scheduler.SchedulerService;
 import com.example.services.ExamSchedularSerializer;
+import com.example.services.ScheduleEditController;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -29,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
