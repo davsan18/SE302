@@ -37,8 +37,9 @@ public class ScheduleEditController {
         }
 
         for (Exam other : allExams) {
-            if (other == targetExam || other.getStart() == null) continue;
-
+            if (other == null || other == targetExam || other.getStart() == null || other.getEnd() == null) {
+                continue;
+            }
             boolean timeOverlap = isOverlapping(targetStart, targetEnd, other.getStart(), other.getEnd());
 
             if (timeOverlap) {
@@ -66,5 +67,8 @@ public class ScheduleEditController {
             }
         }
         return false;
+    }
+    public List<Exam> getExams(){
+     return allExams;
     }
 }
