@@ -51,6 +51,7 @@ public class MainController {
     @FXML private ListView<Course> coursesList;
 
     @FXML private ListView<Classroom> classroomsList;
+    @FXML private ListView<String> attendanceList;
 
     @FXML private TableView<Exam> scheduleTableAll;
     @FXML private TableView<Exam> scheduleTableStudent;
@@ -432,6 +433,12 @@ public class MainController {
         return exams;
     }
 
+    @FXML
+    public void handleViewAttendance() {
+        mainTabs.getSelectionModel().select(2);
+    }
+
+
 
     @FXML
     public void handleUserManual() {
@@ -450,6 +457,14 @@ public class MainController {
         if (cbStudents != null) cbStudents.getItems().setAll(data.students);
         if (scheduleTableAll != null) scheduleTableAll.getItems().setAll(data.exams);
         if (scheduleTableStudent != null) scheduleTableStudent.getItems().setAll(data.exams);
+        if (attendanceList != null) {
+            List<String> lines = new ArrayList<>();
+            for (Course c : data.courses) {
+                lines.add(c.getCourseCode() + " -> " + c.getStudents().size() + " students");
+            }
+            attendanceList.getItems().setAll(lines);
+        }
+
 
 
     }

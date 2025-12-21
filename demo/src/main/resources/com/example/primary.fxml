@@ -28,7 +28,7 @@
                     <MenuItem text="Students" onAction="#handleImportStudents"/>
                     <MenuItem text="Courses" onAction="#handleImportCourses"/>
                     <MenuItem text="Classrooms" onAction="#handleImportClassrooms"/>
-                    <MenuItem text="Attendance" onAction="#handleImportAttendance"/>
+                    <MenuItem text="Attendance List" onAction="#handleImportAttendance"/>
 
                 </items>
             </Menu>
@@ -44,6 +44,7 @@
                     <MenuItem text="Students" onAction="#handleViewStudents"/>
                     <MenuItem text="Courses" onAction="#handleViewCourses"/>
                     <MenuItem text="Classrooms" onAction="#handleViewClassrooms"/>
+                    <MenuItem text="Attendance Lists" onAction="#handleViewAttendance"/>
                     <SeparatorMenuItem/>
                     <MenuItem fx:id="miViewSchedule" text="Schedule" onAction="#handleViewSchedule"/>
                 </items>
@@ -83,12 +84,19 @@
                     <ListView fx:id="coursesList"/>
                 </content>
             </Tab>
+            <Tab text="Attendance" closable="false">
+                <content>
+                    <ListView fx:id="attendanceList"/>
+                </content>
+            </Tab>
+
 
             <Tab text="Classrooms" closable="false">
                 <content>
                     <ListView fx:id="classroomsList"/>
                 </content>
             </Tab>
+
 
             <Tab text="Schedule (All Exams)" closable="false">
                 <content>
