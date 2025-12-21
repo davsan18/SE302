@@ -49,6 +49,7 @@ public class MainController {
     @FXML private TabPane mainTabs;
     @FXML private ListView<Student> studentsList;
     @FXML private ListView<Course> coursesList;
+
     @FXML private ListView<Classroom> classroomsList;
 
     @FXML private TableView<Exam> scheduleTableAll;
@@ -202,6 +203,7 @@ public class MainController {
     @FXML public void handleViewStudents()   { mainTabs.getSelectionModel().select(0); }
     @FXML public void handleViewCourses()    { mainTabs.getSelectionModel().select(1); }
     @FXML public void handleViewClassrooms() { mainTabs.getSelectionModel().select(2); }
+
 
     @FXML
     public void handleViewSchedule() {
@@ -448,6 +450,8 @@ public class MainController {
         if (cbStudents != null) cbStudents.getItems().setAll(data.students);
         if (scheduleTableAll != null) scheduleTableAll.getItems().setAll(data.exams);
         if (scheduleTableStudent != null) scheduleTableStudent.getItems().setAll(data.exams);
+
+
     }
 
     private File pickCsv(String title) {
@@ -535,6 +539,18 @@ public class MainController {
 
         }
     }
+    @FXML
+    public void handleImportAttendance() {
+        File f = pickCsv("Import Attendance");
+        if (f == null) return;
+        try {
+            data.loadAttendance(f);
+            refreshLists();
+        } catch (Exception ex) {
+            showError(ex);
+        }
+    }
+
 
     private void applyStudentFilter() {
         if (scheduleTableStudent == null) return;

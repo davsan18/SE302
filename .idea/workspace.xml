@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="294075db-da23-437f-94b7-d28a914027dc" name="Changes" comment="Fixes to Git page.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_20_2025_7_41_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/example/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/com/example/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/example/objects/ExamScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/com/example/objects/ExamScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/resources/com/example/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/resources/com/example/primary.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/objects/ExamScheduler.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/objects/ExamScheduler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/objects/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/objects/Student.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/primary.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$ScheduleResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$ScheduleResult.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/services/SchedulerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/services/SchedulerService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/services/SearchService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/services/SearchService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,32 +53,35 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="377IZJSNNsGws26u4xOFzl4zTF3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.App.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/CAN/Desktop/allah/demo/src/main/java/com/example",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.demo [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.demo [org.openjfx:javafx-maven-plugin:0.0.6:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.demo [package].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/CAN/Desktop/allah/demo/src/main/java/com/example&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138" />
-      </set>
-    </attachedChunks>
-  </component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -81,6 +92,10 @@
       <updated>1766247736729</updated>
       <workItem from="1766312096431" duration="388000" />
       <workItem from="1766312507107" duration="239000" />
+      <workItem from="1766322894460" duration="5562000" />
+      <workItem from="1766328667677" duration="1391000" />
+      <workItem from="1766330139833" duration="18000" />
+      <workItem from="1766330181773" duration="1023000" />
     </task>
     <task id="LOCAL-00001" summary="Fixes to Git page.">
       <option name="closed" value="true" />

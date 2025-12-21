@@ -135,6 +135,54 @@ public class ExamScheduler implements Serializable {
             }
         }
     }
+
+    public void loadAttendance(File csv) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.isBlank()) continue;
+
+                String upper = line.toUpperCase();
+                if (upper.contains("ALL ATTENDANCE") || upper.contains("ATTENDANCE")) {
+                    continue;
+                }
+
+                String courseCode = line.trim();
+
+                Course course = courseMap.get(courseCode);
+                if (course == null) {
+                    course = new Course(courseCode);
+                    courseMap.put(courseCode, course);
+                    courses.add(course);
+                }
+
+                String studentLine = br.readLine();
+                if (studentLine == null) break;
+
+                String cleaned = studentLine.replace("[", "").replace("]", "").trim();
+                if (cleaned.isEmpty()) continue;
+
+                String[] ids = cleaned.split(",");
+                for (String raw : ids) {
+                    String id = raw.replace("'", "").replace("\"", "").trim();
+                    if (id.isEmpty()) continue;
+
+                    Student s = studentMap.get(id);
+                    if (s == null) {
+                        s = new Student(id);
+                        studentMap.put(id, s);
+                        students.add(s);
+                    }
+
+                    if (!course.getStudents().contains(s)) {
+                        course.addStudent(s);
+                    }
+                }
+            }
+        }
+    }
+
     public Map<String, Integer> convertClassroomsToCapacityMap() {
         Map<String, Integer> roomCapacities = new HashMap<>();
 

@@ -17,6 +17,7 @@
                     <MenuItem text="New" onAction="#handleNew"/>
                     <MenuItem text="Open" onAction="#handleOpen"/>
                     <MenuItem text="Save As" onAction="#handleSaveAs"/>
+
                     <SeparatorMenuItem/>
                     <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
@@ -27,6 +28,8 @@
                     <MenuItem text="Students" onAction="#handleImportStudents"/>
                     <MenuItem text="Courses" onAction="#handleImportCourses"/>
                     <MenuItem text="Classrooms" onAction="#handleImportClassrooms"/>
+                    <MenuItem text="Attendance" onAction="#handleImportAttendance"/>
+
                 </items>
             </Menu>
 
