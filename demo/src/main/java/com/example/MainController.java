@@ -46,7 +46,7 @@ import javafx.stage.Window;
 
 
 public class MainController {
-    private final ExamScheduler data = new ExamScheduler();
+    private ExamScheduler data = new ExamScheduler();
     private final BooleanProperty scheduleCreated = new SimpleBooleanProperty(false);
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm", Locale.ENGLISH);
     private final SchedulerService schedulerService = new SchedulerService();
@@ -93,7 +93,7 @@ public class MainController {
         data.students.clear();
         data.classrooms.clear();
         data.courses.clear();
-        refreshLists();
+        data.exams.clear();
         if (cbStudents != null) {
             cbStudents.getSelectionModel().clearSelection();
             cbStudents.getItems().clear();
@@ -110,12 +110,7 @@ public class MainController {
         if (file != null) {
             try {
                 ExamScheduler newData = ExamSchedularSerializer.load(file);
-                data.classrooms.clear();
-                data.classrooms.addAll(newData.classrooms);
-                data.courses.clear();
-                data.courses.addAll(newData.courses);
-                data.students.clear();
-                data.students.addAll(newData.students);
+                data = newData;
                 refreshLists();
             } catch (IOException ex) {
                 showError(ex);
@@ -222,7 +217,7 @@ public class MainController {
 
         Button saveBtn = new Button("Save");
         Button cancelBtn = new Button("Cancel");
-
+        ScheduleEditController editor = new ScheduleEditController(data.exams);
         //Save logic
         saveBtn.setOnAction(e -> {
             try {
@@ -350,7 +345,7 @@ public class MainController {
                     return;
                 }
                 data.exams = convertScheduleResultToExams(result);
-
+                data.setExamMap(data.exams);
                 scheduleTableAll.getItems().setAll(data.exams);
 
                 scheduleCreated.set(true);
@@ -425,7 +420,8 @@ public class MainController {
         if (coursesList != null) coursesList.getItems().setAll(data.courses);
         if (classroomsList != null) classroomsList.getItems().setAll(data.classrooms);
         if (cbStudents != null) cbStudents.getItems().setAll(data.students);
-
+        if (scheduleTableAll != null) scheduleTableAll.getItems().setAll(data.exams);
+        if (scheduleTableStudent != null) scheduleTableStudent.getItems().setAll(data.exams);
     }
 
     private File pickCsv(String title) {

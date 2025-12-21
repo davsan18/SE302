@@ -22,7 +22,7 @@ public class ExamScheduler implements Serializable {
     private final Map<String, Student> studentMap = new HashMap<>();
     private final Map<String, Classroom> classroomMap = new HashMap<>();
     private final Map<String, Course> courseMap = new HashMap<>();
-
+    private final Map<String, Exam> examMap = new HashMap<>();
     public void loadStudents(File csv) throws IOException {
         students.clear();
         studentMap.clear();
@@ -173,6 +173,14 @@ public class ExamScheduler implements Serializable {
     }
     public Classroom getClassroomFromId(String key){
         return classroomMap.get(key);
+    }
+    public void setExamMap(List<Exam> exams){
+        for (Exam exam : exams) {
+            examMap.put(exam.getCourse().getCourseCode(), exam);
+        }
+    }
+    public Exam getExamFromCourseID(String key){
+        return examMap.get(key);
     }
 }
 
