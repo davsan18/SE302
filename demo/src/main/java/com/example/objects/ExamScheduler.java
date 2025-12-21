@@ -11,6 +11,7 @@ public class ExamScheduler {
     public final List<Student> students = new ArrayList<>();
     public final List<Classroom> classrooms = new ArrayList<>();
     public final List<Course> courses = new ArrayList<>();
+    public List<Exam> exams = new ArrayList<>();
 
     private final Map<String, Student> studentMap = new HashMap<>();
     private final Map<String, Classroom> classroomMap = new HashMap<>();

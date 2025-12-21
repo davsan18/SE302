@@ -29,5 +29,8 @@ public class Exam {
     public void setStart(LocalDateTime start) {this.start = start;}
 
     public void setEnd(LocalDateTime end) {this.end = end;}
+    public String toString() {
+        return course.getCourseCode() + " @ " + start;
+    }
 }
 
