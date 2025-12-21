@@ -63,6 +63,7 @@
         <Separator orientation="VERTICAL"/>
         <Button fx:id="btnCreateSchedule" text="Create Schedule" onAction="#showScheduleInputWindow"/>
         <Button fx:id="btnViewSchedule" text="View Schedule" onAction="#handleViewSchedule"/>
+        <Button fx:id="btnExportSchedule" text="Export Schedule" onAction="#handleExportSchedule"/>
     </ToolBar>
 
 

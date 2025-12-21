@@ -67,6 +67,8 @@ public class MainController {
     @FXML private MenuItem miViewSchedule;
     @FXML private Button btnCreateSchedule;
     @FXML private Button btnViewSchedule;
+    @FXML private Button btnExportSchedule;
+
 
     @FXML
     public void initialize() {
@@ -76,6 +78,7 @@ public class MainController {
         if (miEditExam != null) miEditExam.disableProperty().bind(scheduleMissing);
         if (miViewSchedule != null) miViewSchedule.disableProperty().bind(scheduleMissing);
         if (btnViewSchedule != null) btnViewSchedule.disableProperty().bind(scheduleMissing);
+        if (btnExportSchedule != null) btnExportSchedule.disableProperty().bind(scheduleMissing);
         if (btnCreateSchedule != null) btnCreateSchedule.setDisable(false);
 
         setupScheduleTable();
@@ -131,6 +134,33 @@ public class MainController {
             }
         }
     }
+
+    @FXML
+    public void handleExportSchedule() {
+        if (!scheduleCreated.get() || data.exams == null || data.exams.isEmpty()) {
+            info("Export Schedule", "No schedule to export. Create schedule first.");
+            return;
+        }
+
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Export Schedule as CSV");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fc.setInitialFileName("schedule.csv");
+
+        Window w = (mainTabs != null && mainTabs.getScene() != null) ? mainTabs.getScene().getWindow() : null;
+        File out = fc.showSaveDialog(w);
+        if (out == null) return;
+
+        try {
+            // ✅ CSV export burada
+            ExamSchedularSerializer.exportScheduleToCsv(data.exams, out);
+
+            info("Export Schedule", "Schedule exported successfully.");
+        } catch (IOException ex) {
+            showError(ex);
+        }
+    }
+
 
     @FXML
     public void handleExit() {
