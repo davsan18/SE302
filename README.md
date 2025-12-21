@@ -59,4 +59,5 @@ If no valid placement is possible under the given conditions, the system informs
 
 Screenshots of the application interface and generated schedules.
 
-
+![Main Interface](docs\screenshots\Ekran görüntüsü 2025-12-21 182751.png)
+![Schedule](docs\screenshots\Ekran görüntüsü 2025-12-21 183917.png)
