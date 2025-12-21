@@ -137,6 +137,10 @@ public class ExamScheduler implements Serializable {
     }
 
     public void loadAttendance(File csv) throws IOException {
+        for (Course c : courses) {
+            c.getStudents().clear();
+        }
+
         try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
             String line;
 

@@ -171,6 +171,7 @@ public class MainController {
         if (f == null) return;
         try {
             data.loadStudents(f);
+            resetScheduleAfterDataChange();
             refreshLists();
         } catch (Exception ex) {
             showError(ex);
@@ -183,6 +184,7 @@ public class MainController {
         if (f == null) return;
         try {
             data.loadCourses(f);
+            resetScheduleAfterDataChange();
             refreshLists();
         } catch (Exception ex) {
             showError(ex);
@@ -195,11 +197,13 @@ public class MainController {
         if (f == null) return;
         try {
             data.loadClassrooms(f);
+            resetScheduleAfterDataChange();
             refreshLists();
         } catch (Exception ex) {
             showError(ex);
         }
     }
+
 
     @FXML public void handleViewStudents()   { mainTabs.getSelectionModel().select(0); }
     @FXML public void handleViewCourses()    { mainTabs.getSelectionModel().select(1); }
@@ -558,13 +562,29 @@ public class MainController {
     public void handleImportAttendance() {
         File f = pickCsv("Import Attendance");
         if (f == null) return;
+
         try {
+            if (data.students.isEmpty() || data.courses.isEmpty()) {
+                info("Import Attendance", "Please import Students and Courses before Attendance.");
+                return;
+            }
+
             data.loadAttendance(f);
+            resetScheduleAfterDataChange();
             refreshLists();
         } catch (Exception ex) {
             showError(ex);
         }
     }
+
+    private void resetScheduleAfterDataChange() {
+        data.exams.clear();
+        scheduleCreated.set(false);
+        if (scheduleTableAll != null) scheduleTableAll.getItems().clear();
+        if (scheduleTableStudent != null) scheduleTableStudent.getItems().clear();
+        if (cbStudents != null) cbStudents.getSelectionModel().clearSelection();
+    }
+
 
 
     private void applyStudentFilter() {
