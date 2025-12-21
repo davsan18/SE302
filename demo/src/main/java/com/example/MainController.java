@@ -1,23 +1,39 @@
 package com.example;
 
-import com.example.objects.Exam;
-import com.example.scheduler.SchedulerService;
-import javafx.beans.property.SimpleStringProperty;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import com.example.objects.Classroom;
 import com.example.objects.Course;
+import com.example.objects.Exam;
 import com.example.objects.ExamScheduler;
 import com.example.objects.Student;
+import com.example.scheduler.SchedulerService;
+import com.example.services.ExamSchedularSerializer;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -25,10 +41,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-import java.io.File;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 
 public class MainController {
@@ -92,12 +104,35 @@ public class MainController {
 
     @FXML
     public void handleOpen() {
-        info("Open", "Open (placeholder).");
+        File file = pickProj("Open Save File");
+        if (file != null) {
+            try {
+                ExamScheduler newData = ExamSchedularSerializer.load(file);
+                data.classrooms.clear();
+                data.classrooms.addAll(newData.classrooms);
+                data.courses.clear();
+                data.courses.addAll(newData.courses);
+                data.students.clear();
+                data.students.addAll(newData.students);
+                refreshLists();
+            } catch (IOException ex) {
+                showError(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @FXML
     public void handleSaveAs() {
-        info("Save As", "Save As (placeholder).");
+        File file = pickProj("Select Save File");
+        if (file != null) {
+            try {
+                ExamSchedularSerializer.save(file, data);
+            } catch (IOException ex) {
+                showError(ex);
+            }
+        }
     }
 
     @FXML
@@ -113,7 +148,7 @@ public class MainController {
             data.loadStudents(f);
             refreshLists();
         } catch (Exception ex) {
-            showError("Students import failed", ex);
+            showError(ex);
         }
     }
 
@@ -125,7 +160,7 @@ public class MainController {
             data.loadCourses(f);
             refreshLists();
         } catch (Exception ex) {
-            showError("Courses import failed", ex);
+            showError(ex);
         }
     }
 
@@ -137,7 +172,7 @@ public class MainController {
             data.loadClassrooms(f);
             refreshLists();
         } catch (Exception ex) {
-            showError("Classrooms import failed", ex);
+            showError(ex);
         }
     }
 
@@ -255,7 +290,7 @@ public class MainController {
                         data.convertCoursesToStudentMap()
                 );
                 if (!result.isFeasible()) {
-                    showError("No feasible schedule was created.", new IllegalStateException());
+                    showError(new IllegalStateException());
                     return;
                 }
                 scheduledExams = convertScheduleResultToExams(result);
@@ -344,6 +379,14 @@ public class MainController {
         Window w = (mainTabs != null && mainTabs.getScene() != null) ? mainTabs.getScene().getWindow() : null;
         return fc.showOpenDialog(w);
     }
+    private File pickProj(String title) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle(title);
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Exam Files", "*.exams"));
+        Window w = (mainTabs != null && mainTabs.getScene() != null) ? mainTabs.getScene().getWindow() : null;
+        if (title.toLowerCase().contains("open")) {return fc.showOpenDialog(w);}
+        else {return fc.showSaveDialog(w);}
+    }
 
     private void info(String title, String text) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -354,10 +397,10 @@ public class MainController {
         a.showAndWait();
     }
 
-    private void showError(String header, Exception ex) {
+    private void showError(Exception ex) {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle("Error");
-        a.setHeaderText(header);
+        a.setHeaderText(ex.getClass().getSimpleName());
         a.setContentText(ex.getMessage());
         a.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         a.showAndWait();

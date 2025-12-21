@@ -4,9 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class ExamScheduler {
+public class ExamScheduler implements Serializable {
 
     public final List<Student> students = new ArrayList<>();
     public final List<Classroom> classrooms = new ArrayList<>();

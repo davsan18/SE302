@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="294075db-da23-437f-94b7-d28a914027dc" name="Changes" comment="Fixes to Git page.">
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/objects/ExamScheduler.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/objects/ExamScheduler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/objects/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/objects/Student.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$ScheduleResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService$ScheduleResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/scheduler/SchedulerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/services/SchedulerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/services/SchedulerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/target/classes/com/example/services/SearchService.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/target/classes/com/example/services/SearchService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +29,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;davsan18&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/davsan18/SE302.git&quot;,
+    &quot;accountId&quot;: &quot;83e60d77-11e4-45e6-b358-8afaa9a9702e&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -32,12 +52,25 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.App.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/CAN/Desktop/allah/demo/src/main/java/com/example"
+    "last_opened_file_path": "C:/Users/CAN/Desktop/allah/demo/src/main/java/com/example",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -46,6 +79,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1766247736729</updated>
+      <workItem from="1766312096431" duration="388000" />
+      <workItem from="1766312507107" duration="239000" />
     </task>
     <task id="LOCAL-00001" summary="Fixes to Git page.">
       <option name="closed" value="true" />
@@ -57,6 +92,9 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -72,5 +110,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixes to Git page." />
     <option name="LAST_COMMIT_MESSAGE" value="Fixes to Git page." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/demo/target/classes/com/example/App.class</url>
+          <line>30</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
